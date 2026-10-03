@@ -10,10 +10,15 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 
-// HTML, CSS va JS fayllarini project root'dan yuklash
+// Bosh sahifa
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// HTML, CSS, JS fayllar
 app.use(express.static(__dirname));
 
-// Xatolarni qayta ishlash
+// Xatolar
 app.use((err, req, res, next) => {
   console.error(err);
 
@@ -24,7 +29,6 @@ app.use((err, req, res, next) => {
 
 module.exports = app;
 
-// Local server uchun
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(
