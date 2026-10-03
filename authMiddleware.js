@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const db = require("./db");
+const db = require("./store-supabase");
 
 // The secret signs the login token.
 //   - Online (Vercel): you MUST set JWT_SECRET in the project settings.
