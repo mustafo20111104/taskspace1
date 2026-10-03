@@ -18,7 +18,17 @@ app.get("/", (req, res) => {
 // HTML, CSS, JS fayllar
 app.use(express.static(__dirname));
 
-// Xatolar
+// ================================
+// API ROUTES
+// ================================
+
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/pages", require("./routes/pages"));
+
+// ================================
+// XATOLAR
+// ================================
+
 app.use((err, req, res, next) => {
   console.error(err);
 
