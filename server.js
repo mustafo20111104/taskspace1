@@ -10,11 +10,13 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 
-// Serve HTML, CSS, JS from the project root
+// HTML, CSS va JS fayllarini project root'dan yuklash
 app.use(express.static(__dirname));
 
+// Xatolarni qayta ishlash
 app.use((err, req, res, next) => {
   console.error(err);
+
   res.status(500).json({
     error: "Server error. Please try again."
   });
@@ -22,8 +24,11 @@ app.use((err, req, res, next) => {
 
 module.exports = app;
 
+// Local server uchun
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log("Task planner is running: http://localhost:" + PORT);
+    console.log(
+      "Task planner is running: http://localhost:" + PORT
+    );
   });
 }
