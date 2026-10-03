@@ -10,7 +10,8 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "public")));
+// Serve HTML, CSS, JS from the project root
+app.use(express.static(__dirname));
 
 app.use((err, req, res, next) => {
   console.error(err);
@@ -23,8 +24,6 @@ module.exports = app;
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(
-      "Task planner is running: http://localhost:" + PORT
-    );
+    console.log("Task planner is running: http://localhost:" + PORT);
   });
 }
