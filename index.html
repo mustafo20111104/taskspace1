@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taskspace</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell" id="shell">
+
+    <!-- Sidebar: account, level, pages -->
+    <aside id="side">
+      <div class="side-top">
+        <div class="avatar" id="avatar"></div>
+        <div class="who"><b id="user-name"></b><span id="user-email"></span></div>
+        <button class="small-btn" id="logout">Log out</button>
+      </div>
+
+      <section class="player" aria-label="Your progress">
+        <div class="player-row">
+          <b id="level-title">Beginner</b>
+          <span class="lvl" id="lvl">Lv 1</span>
+        </div>
+        <div class="xpbar"><i id="xp-fill"></i></div>
+        <div class="xp-text"><span id="xp-text">0 / 100 XP</span><span class="streak" id="streak"></span></div>
+        <div class="xp-text" id="streak-hint"></div>
+      </section>
+
+      <input class="search" id="search" type="search" placeholder="Search pages…" aria-label="Search pages">
+      <nav class="tree" id="tree" aria-label="Pages"></nav>
+      <button class="newpage" id="new-btn">+ New page</button>
+    </aside>
+
+    <!-- Main: the open page -->
+    <main id="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">☰</button>
+        <nav class="crumbs" id="crumbs"></nav>
+        <span class="save" id="save-state"></span>
+        <button class="small-btn danger-btn" id="delete-btn" hidden>Delete</button>
+      </header>
+      <div id="view"></div>
+    </main>
+
+  </div>
+  <div class="pop" id="pop" hidden></div>
+
+  <script src="effects.js"></script>
+  <script src="editor.js"></script>
+  <script src="board.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

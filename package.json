@@ -1,0 +1,16 @@
+{
+  "name": "taskspace",
+  "version": "4.0.0",
+  "description": "Taskspace: a Notion-style workspace (pages, block editor, boards) with XP, levels and streaks. Node.js + Express.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

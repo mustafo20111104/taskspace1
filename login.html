@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in · Taskspace</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-wrap">
+  <div class="auth-layout">
+        <section class="hero" aria-hidden="true">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="hero-inner">
+        <h2>Pick up where you left off</h2>
+        <p>Your tasks, your XP and your streak are waiting for you.</p>
+        <div class="demo">
+          <div class="demo-task t1"><span class="box">✓</span><span>Plan the week</span><span class="xp">+10 XP</span></div>
+          <div class="demo-task t2"><span class="box">✓</span><span>Reply to messages</span><span class="xp">+15 XP</span></div>
+          <div class="demo-task t3"><span class="box">✓</span><span>Finish the report</span><span class="xp">+20 XP</span></div>
+          <div class="demo-level"><span>Level 2</span><div class="demo-bar"><i></i></div><span><span class="flame">🔥</span> 3</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-side">
+      <div class="auth-card" id="card">
+        <div id="form-view">
+          <div class="logo">✓</div>
+          <h1>Welcome back</h1>
+          <p class="lead">Log in to keep your streak going.</p>
+
+          <form id="login-form" novalidate>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" autocomplete="current-password" required>
+            </div>
+            <button class="primary" type="submit">Log in</button>
+            <p class="msg" id="msg" role="alert"></p>
+          </form>
+
+          <p class="switch">New here? <a href="register.html">Create an account</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="auth.js"></script>
+</body>
+</html>
