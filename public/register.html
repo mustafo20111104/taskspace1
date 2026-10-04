@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up · Taskspace</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-wrap">
+  <div class="auth-layout">
+    <section class="hero" aria-hidden="true">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="hero-inner">
+        <h2>Turn your week into a game</h2>
+        <p>Finish tasks, earn XP, level up and keep your daily streak alive.</p>
+        <div class="demo">
+          <div class="demo-task t1"><span class="box">✓</span><span>Plan the week</span><span class="xp">+10 XP</span></div>
+          <div class="demo-task t2"><span class="box">✓</span><span>Reply to messages</span><span class="xp">+15 XP</span></div>
+          <div class="demo-task t3"><span class="box">✓</span><span>Finish the report</span><span class="xp">+20 XP</span></div>
+          <div class="demo-level"><span>Level 2</span><div class="demo-bar"><i></i></div><span><span class="flame">🔥</span> 3</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-side">
+      <div class="auth-card" id="card">
+        <div id="form-view">
+          <div class="logo">✓</div>
+          <h1>Create your account</h1>
+          <p class="lead">Start at Level 1 and level up as you plan.</p>
+
+          <form id="register-form" novalidate>
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" type="text" autocomplete="name" maxlength="50" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" autocomplete="new-password" required>
+              <div class="meter" id="meter" data-s="0"><i></i><i></i><i></i></div>
+              <small id="strength">At least 8 characters</small>
+            </div>
+            <div class="field">
+              <label for="confirm">Repeat password</label>
+              <input id="confirm" type="password" autocomplete="new-password" required>
+            </div>
+            <button class="primary" type="submit">Create account</button>
+            <p class="msg" id="msg" role="alert"></p>
+          </form>
+
+          <p class="switch">Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="auth.js"></script>
+</body>
+</html>
