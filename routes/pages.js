@@ -5,7 +5,7 @@ const db = require("../db");
 const game = require("../game");
 const content = require("../content");
 const templates = require("../templates");
-const { requireLogin, wrap } = require("../middleware");
+const { requireLogin, wrap } = require("../authMiddleware");
 
 const router = express.Router();
 router.use(requireLogin); // all routes below need login
