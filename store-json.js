@@ -30,6 +30,10 @@ module.exports = {
     const users = read("users.json");
     users.push(user);
     write("users.json", users);
+    return user;
+  },
+  async deleteUser(id) {
+    write("users.json", read("users.json").filter((user) => user.id !== id));
   },
   async saveUserStats(user) {
     const users = read("users.json");

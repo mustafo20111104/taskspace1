@@ -11,12 +11,14 @@ app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 
 // Bosh sahifa
+const publicDir = path.join(__dirname, "public");
+
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(publicDir, "index.html"));
 });
 
 // HTML, CSS, JS fayllar
-app.use(express.static(__dirname));
+app.use(express.static(publicDir));
 
 // ================================
 // API ROUTES

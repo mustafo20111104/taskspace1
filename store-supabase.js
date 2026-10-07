@@ -10,7 +10,11 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 
 // If Supabase answers with an error, stop and report it
 function check({ data, error }) {
-  if (error) throw new Error("Database error: " + error.message);
+  if (error) {
+    const databaseError = new Error("Database error: " + error.message);
+    databaseError.code = error.code;
+    throw databaseError;
+  }
   return data;
 }
 
@@ -44,10 +48,13 @@ module.exports = {
     return userFromRow(check(await supabase.from("users").select("*").eq("id", id).maybeSingle()));
   },
   async createUser(user) {
-    check(await supabase.from("users").insert({
+    return userFromRow(check(await supabase.from("users").insert({
       id: user.id, name: user.name, email: user.email,
       password_hash: user.passwordHash, created_at: user.createdAt
-    }));
+    }).select("*").single()));
+  },
+  async deleteUser(id) {
+    check(await supabase.from("users").delete().eq("id", id));
   },
   async saveUserStats(user) {
     check(await supabase.from("users").update({

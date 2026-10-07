@@ -1,26 +1,29 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
-const db = require("../store-supabase");
+const db = require("../db");
 const { setLoginCookie, requireLogin, wrap } = require("../authMiddleware");
 const game = require("../game");
+const templates = require("../templates");
 
 const router = express.Router();
 
 router.post("/register", wrap(async (req, res) => {
-  const name = String(req.body.name || "").trim();
-  const email = String(req.body.email || "").trim().toLowerCase();
-  const password = String(req.body.password || "");
+  const body = req.body || {};
+  const name = String(body.name || "").trim();
+  const email = String(body.email || "").trim().toLowerCase();
+  const password = String(body.password || "");
 
-  if (!name) {
+  if (!name || name.length > 50) {
     return res.status(400).json({
-      error: "Please enter your name."
+      error: "Please enter your name (max 50 letters)."
     });
   }
 
-  if (!email) {
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
     return res.status(400).json({
-      error: "Please enter your email."
+      error: "Please enter a valid email."
     });
   }
 
@@ -33,18 +36,40 @@ router.post("/register", wrap(async (req, res) => {
   const existing = await db.findUserByEmail(email);
 
   if (existing) {
-    return res.status(400).json({
+    return res.status(409).json({
       error: "An account with this email already exists."
     });
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
+  let user;
+  try {
+    user = await db.createUser({
+      id: crypto.randomUUID(),
+      name,
+      email,
+      passwordHash,
+      createdAt: new Date().toISOString()
+    });
+  } catch (error) {
+    // The email uniqueness check above can race another registration request.
+    if (error.code === "23505") {
+      return res.status(409).json({ error: "An account with this email already exists." });
+    }
+    throw error;
+  }
 
-  const user = await db.createUser({
-    name,
-    email,
-    passwordHash
-  });
+  try {
+    await db.createPages(templates.starterPages(user.id));
+  } catch (error) {
+    // Do not leave behind an account that could not finish initialization.
+    try {
+      await db.deleteUser(user.id);
+    } catch (cleanupError) {
+      console.error("Could not roll back incomplete registration.");
+    }
+    throw error;
+  }
 
   setLoginCookie(res, user.id);
 
@@ -57,8 +82,9 @@ router.post("/register", wrap(async (req, res) => {
 }));
 
 router.post("/login", wrap(async (req, res) => {
-  const email = String(req.body.email || "").trim().toLowerCase();
-  const password = String(req.body.password || "");
+  const body = req.body || {};
+  const email = String(body.email || "").trim().toLowerCase();
+  const password = String(body.password || "");
 
   if (!email || !password) {
     return res.status(400).json({
