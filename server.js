@@ -34,14 +34,6 @@ app.use("/api/pages", require("./routes/pages"));
 app.use((err, req, res, next) => {
   console.error(err);
 
-  // TEMPORARY: return only a safe error code for an explicitly marked diagnostic request.
-  if (req.get("x-taskspace-diagnostic") === "1") {
-    const code = typeof err.code === "string" && /^[A-Za-z0-9_-]{1,40}$/.test(err.code)
-      ? err.code
-      : "UNCLASSIFIED";
-    res.setHeader("x-taskspace-diagnostic-error-code", code);
-  }
-
   res.status(500).json({
     error: "Server error. Please try again."
   });
