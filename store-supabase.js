@@ -4,6 +4,15 @@
 
 const { createClient } = require("@supabase/supabase-js");
 
+// TEMPORARY: log only the runtime URL pathname while diagnosing production config.
+let supabaseUrlPath = "/";
+try {
+  supabaseUrlPath = new URL(process.env.SUPABASE_URL).pathname || "/";
+} catch {
+  supabaseUrlPath = "UNPARSEABLE";
+}
+console.log("SUPABASE_URL_RUNTIME_PATH=" + supabaseUrlPath);
+
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY, {
   auth: { persistSession: false }
 });
