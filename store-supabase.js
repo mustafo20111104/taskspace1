@@ -4,18 +4,28 @@
 
 const { createClient } = require("@supabase/supabase-js");
 
-// TEMPORARY: log only the runtime URL pathname while diagnosing production config.
-let supabaseUrlPath = "/";
-try {
-  supabaseUrlPath = new URL(process.env.SUPABASE_URL).pathname || "/";
-} catch {
-  supabaseUrlPath = "UNPARSEABLE";
-}
-console.log("SUPABASE_URL_RUNTIME_PATH=" + supabaseUrlPath);
+function supabaseProjectUrl(value) {
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error("SUPABASE_URL must be a valid project root URL.");
+  }
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY, {
-  auth: { persistSession: false }
-});
+  const path = url.pathname.replace(/\/+$/, "");
+  if (path === "/rest/v1") url.pathname = "/";
+  if (url.pathname !== "/") {
+    throw new Error("SUPABASE_URL must be the project root URL.");
+  }
+
+  return url.origin;
+}
+
+const supabase = createClient(
+  supabaseProjectUrl(process.env.SUPABASE_URL),
+  process.env.SUPABASE_SERVICE_KEY,
+  { auth: { persistSession: false } }
+);
 
 // If Supabase answers with an error, stop and report it
 function check({ data, error }) {
