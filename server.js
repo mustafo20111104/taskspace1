@@ -10,6 +10,17 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 
+// TEMPORARY: expose only the runtime Supabase URL pathname while log access is unavailable.
+app.get("/api/diagnostics/supabase-url-path", (req, res) => {
+  let pathname = "/";
+  try {
+    pathname = new URL(process.env.SUPABASE_URL).pathname || "/";
+  } catch {
+    pathname = "UNPARSEABLE";
+  }
+  res.type("text/plain").send(pathname);
+});
+
 // Bosh sahifa
 const publicDir = path.join(__dirname, "public");
 
